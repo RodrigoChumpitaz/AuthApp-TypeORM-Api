@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  server-mysql:
+    image: mysql:8
+    container_name: server-mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_DATABASE=authdb
+      - MYSQL_USER=rodrigo
+      - MYSQL_PASSWORD=1234
+    ports:
+      - 3308:3306
+    networks:
+      - net-authapp
+    volumes:
+      - mysql-vol:/var/lib/mysql
+networks:
+  net-authapp:
+    driver: bridge
+volumes:
+  mysql-vol:
