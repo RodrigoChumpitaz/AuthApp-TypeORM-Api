@@ -1,39 +1,36 @@
-export interface PermissionEssentials{
-    readonly name: string;
-    readonly slug: string;
-}
+import { PermissionOptionals } from "src/modules/permission/domain/permission";
 
-export interface PermissionOptionals{
+export interface RoleInterface{
     readonly id: number;
-    readonly role: any[];
+    readonly name: string;
+    readonly description: string;
+    readonly permission: any[];
     readonly active: boolean;
-    readonly createAt: Date;
+    readonly createAt: Date | null;
     readonly updateAt: Date | null;
     readonly deleteAt: Date | null;
 }
 
-export type PermissionProperties = PermissionEssentials & Partial<PermissionOptionals>;
-
-export class Permission{
+export class Role{
     private readonly id: number;
-    private readonly slug: string;
     private name: string;
-    private role: any[];
+    private description: string;
+    private permission: any[]
     private active: boolean;
-    private readonly createAt: Date;
+    private readonly createAt: Date | null;
     private updateAt: Date | null;
     private deleteAt: Date | null;
 
-    constructor(properties: PermissionProperties){
+    constructor(properties: Partial<RoleInterface>){
         Object.assign(this, properties);
     }
 
-    properties(): PermissionProperties{
+    properties(): RoleInterface{
         return {
             id: this.id,
-            slug: this.slug,
             name: this.name,
-            role: this.role,
+            description: this.description,
+            permission: this.permission,
             active: this.active,
             createAt: this.createAt,
             updateAt: this.updateAt,
@@ -41,9 +38,9 @@ export class Permission{
         }
     }
 
-    update(properties: PermissionProperties){
-        Object.assign(this, properties);
+    update(properties: Partial<RoleInterface>){
         this.updateAt = new Date();
+        Object.assign(this, properties);
     }
 
     delete(){

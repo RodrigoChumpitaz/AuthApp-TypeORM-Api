@@ -13,5 +13,6 @@ import ServerBootstrap from './server/server.bootstrap';
         console.log(error);
         database.close();
         server.close();
+        throw new Error(error);
     }
 })()

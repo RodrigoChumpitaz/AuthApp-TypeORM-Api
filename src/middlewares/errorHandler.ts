@@ -2,13 +2,22 @@ import { NextFunction, Request, Response } from 'express';
 import winston from 'winston';
 
 const logger = winston.createLogger({
+    level: "error",
+    format: winston.format.json(),
     transports: [
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-        new winston.transports.Console()   
-    ]
+        new winston.transports.File({ filename: "logs/error.log", level: "error" }),
+        new winston.transports.Console()
+    ],
 });
 
-export class ErrorHandler{
+export class ErrorHandler extends Error{
+    name: string;
+    constructor(){
+        super();
+        this.name = this.constructor.name;
+        Error.captureStackTrace(this, this.constructor);
+    }
+
     static LogError(err: any, req: Request, res: Response){
         const statusCode = err.statusCode || 500;
         const is_success = err.is_success || false;
@@ -30,7 +39,9 @@ export class ErrorHandler{
 
         res.status(statusCode).json({
             error:{
-                statusCode: statusCode,
+                title: this.name,
+                status: statusCode,
+                source: req.originalUrl,
                 is_success: is_success,
                 message: message
             }
@@ -38,4 +49,6 @@ export class ErrorHandler{
     }
 }
 
-
+// export function handleError(err: any, req: Request, res: Response, next: NextFunction){
+//     ErrorHandler.LogError(err, req, res, next);
+// }

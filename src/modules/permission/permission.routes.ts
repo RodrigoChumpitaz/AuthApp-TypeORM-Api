@@ -13,6 +13,8 @@ class PermissionRoutes{
     mountRoutes(){
         this.router.get('/get', this.controller.getAll)
         this.router.post('/add', this.controller.insert)
+        this.router.patch('udapte/:slug', this.controller.update)
+        this.router.patch('/disabled/:slug', this.controller.disabled)
     }
 }
 

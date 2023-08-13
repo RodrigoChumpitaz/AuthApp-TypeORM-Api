@@ -5,9 +5,9 @@ export class PermissionFactory{
     static error: any = new Error();
     static create(name: string, role?: any[]): Permission{
         if(name.length < 3){
-            this.error.message = 'Name must be at least 3 characters long';
+            this.error.message = `The atributte name: /${name}/ is not valid, the name must be greater than 3 characters`;
             this.error.statusCode = 400;
-            throw this.error;
+            return this.error;
         }
         
         const properties: PermissionProperties = {

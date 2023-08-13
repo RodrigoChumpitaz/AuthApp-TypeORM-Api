@@ -1,6 +1,6 @@
 import express from 'express';
 import permissionRoutes from './modules/permission/permission.routes';
-import { ErrorHandler } from './middlewares/errorHandler';
+import roleRoutes from './modules/roles/role.routes';
 import morgan from 'morgan';
 
 
@@ -11,7 +11,6 @@ class Application{
         this.app = express();
         this.middlewares();
         this.mountRoutes();
-        // this.app.use(ErrorHandler.LogError);
     }
 
     middlewares(){
@@ -22,6 +21,7 @@ class Application{
 
     mountRoutes(){
         this.app.use('/permissions', permissionRoutes)
+        this.app.use('/roles', roleRoutes)
     }
 }
 

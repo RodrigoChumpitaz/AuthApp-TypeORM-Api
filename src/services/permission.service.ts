@@ -8,10 +8,18 @@ export default class PermissionService{
         this.repository = repository;
     }
 
-    getAll(): Permission[] {
-        return this.repository.getAll();
+    async getAll(): Promise<Permission[] | Error> {
+        return await this.repository.getAll();
     }
-    async insert(permission: Permission): Promise<void> {
+    async insert(permission: Permission): Promise<void | Error> {
         return await this.repository.insert(permission);
+    }
+
+    async update(slug: string, permission: Partial<Permission>): Promise<void | Error> {
+        return await this.repository.update(slug, permission);
+    }
+
+    async disabled(slug: string): Promise<void | Error> {
+        return await this.repository.disabled(slug);
     }
 }
